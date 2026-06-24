@@ -1,122 +1,352 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>La Matinale Bingo</title>
 
 <style>
+*{
+  box-sizing:border-box;
+}
+
 body{
-    font-family: Arial, sans-serif;
-    background:#f7efe8;
-    text-align:center;
-    margin:0;
-    padding:20px;
+  margin:0;
+  min-height:100vh;
+  font-family:Arial, sans-serif;
+  color:white;
+  background:
+    radial-gradient(circle at top left, rgba(255,120,0,.35), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(255,100,0,.28), transparent 35%),
+    linear-gradient(135deg,#120905,#241006 45%,#080503);
+  overflow-x:hidden;
 }
 
-h1{
-    color:#d97b2b;
-    margin-bottom:20px;
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background-image:
+    radial-gradient(rgba(255,120,0,.25) 1px, transparent 1px);
+  background-size:26px 26px;
+  opacity:.18;
+  pointer-events:none;
 }
 
-#setup{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:10px;
-    max-width:900px;
-    margin:auto;
+.app{
+  width:100%;
+  max-width:1500px;
+  margin:0 auto;
+  padding:26px 40px 20px;
+  text-align:center;
 }
 
-#setup input{
-    height:60px;
-    text-align:center;
-    font-size:14px;
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  margin-bottom:14px;
+}
+
+.mug,.live{
+  width:180px;
+  height:110px;
+  border-radius:24px;
+  background:rgba(0,0,0,.35);
+  border:2px solid rgba(255,120,0,.6);
+  box-shadow:0 0 25px rgba(255,100,0,.35);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:900;
+  font-size:28px;
+}
+
+.mug span{
+  color:#ff7a00;
+}
+
+.live{
+  color:#ff7a00;
+  font-size:42px;
+  letter-spacing:3px;
+}
+
+.title{
+  flex:1;
+  line-height:.85;
+  text-transform:uppercase;
+  font-weight:1000;
+  text-shadow:6px 6px 0 #000, 0 0 28px rgba(255,120,0,.7);
+}
+
+.title .top{
+  display:block;
+  font-size:70px;
+  color:white;
+  transform:rotate(-2deg);
+}
+
+.title .bottom{
+  display:block;
+  font-size:110px;
+  color:#ff7a00;
+}
+
+.controls{
+  display:flex;
+  justify-content:center;
+  gap:18px;
+  margin:14px 0 18px;
 }
 
 button{
-    padding:12px 24px;
-    margin-top:20px;
-    font-size:18px;
-    cursor:pointer;
-    border:none;
-    border-radius:10px;
-    background:#d97b2b;
-    color:white;
+  border:0;
+  cursor:pointer;
+  padding:15px 26px;
+  border-radius:18px;
+  color:white;
+  font-size:19px;
+  font-weight:900;
+  background:linear-gradient(180deg,#ff8a00,#c95600);
+  box-shadow:0 0 22px rgba(255,120,0,.45);
 }
 
-#bingo{
-    display:none;
-    max-width:900px;
-    margin:30px auto;
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:5px;
+button.secondary{
+  background:rgba(0,0,0,.45);
+  border:2px solid rgba(255,120,0,.65);
 }
 
-.case{
-    border:2px solid #d97b2b;
-    min-height:100px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    padding:10px;
-    background:white;
-    cursor:pointer;
-    font-weight:bold;
+.main{
+  display:grid;
+  grid-template-columns:170px 1fr 170px;
+  gap:24px;
+  align-items:center;
 }
 
-.case.checked{
-    background:#ffce8a;
+.counter{
+  border-radius:24px;
+  background:rgba(0,0,0,.45);
+  border:2px solid rgba(255,120,0,.75);
+  box-shadow:0 0 28px rgba(255,100,0,.35);
+  padding:25px 12px;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.counter .big{
+  display:block;
+  margin-top:12px;
+  font-size:48px;
+  color:#ff7a00;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+}
+
+.cell{
+  position:relative;
+  height:145px;
+  border-radius:15px;
+  border:4px solid #ff7a00;
+  background:linear-gradient(180deg,#fff8ec,#f7ead8);
+  color:#1b120d;
+  box-shadow:
+    inset 0 0 18px rgba(255,120,0,.18),
+    0 0 14px rgba(255,100,0,.45);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:15px;
+  font-size:26px;
+  font-weight:900;
+  cursor:pointer;
+  overflow:hidden;
+}
+
+.cell textarea{
+  width:100%;
+  height:100%;
+  resize:none;
+  border:none;
+  outline:none;
+  background:transparent;
+  text-align:center;
+  font-size:25px;
+  font-weight:900;
+  color:#1b120d;
+  font-family:Arial, sans-serif;
+}
+
+.cell.checked::after{
+  content:"✕";
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:150px;
+  font-weight:1000;
+  color:#ff7200;
+  text-shadow:0 0 18px rgba(255,110,0,.6);
+  transform:rotate(-8deg);
+  pointer-events:none;
+}
+
+.cell.checked{
+  background:linear-gradient(180deg,#fff0ca,#ffd36f);
+}
+
+.side-decoration{
+  opacity:.35;
+  font-size:70px;
+}
+
+.footer{
+  display:inline-flex;
+  align-items:center;
+  gap:14px;
+  margin-top:18px;
+  padding:14px 34px;
+  border-radius:25px;
+  background:rgba(0,0,0,.55);
+  border:2px solid rgba(255,120,0,.75);
+  box-shadow:0 0 26px rgba(255,100,0,.4);
+  font-size:38px;
+  font-weight:1000;
+}
+
+.footer span{
+  color:#ff7a00;
+}
+
+@media(max-width:1000px){
+  .app{padding:18px;}
+  .header{gap:10px;}
+  .mug,.live{display:none;}
+  .title .top{font-size:42px;}
+  .title .bottom{font-size:72px;}
+  .main{grid-template-columns:1fr;}
+  .counter{max-width:220px;margin:0 auto;}
+  .side-decoration{display:none;}
+  .cell{height:115px;font-size:20px;}
+  .cell textarea{font-size:19px;}
+  .footer{font-size:26px;}
 }
 </style>
 </head>
 
 <body>
+<div class="app">
 
-<h1>☕ La Matinale Bingo 🎯</h1>
+  <div class="header">
+    <div class="mug">Luchi<br><span>Live</span></div>
 
-<div id="setup"></div>
+    <h1 class="title">
+      <span class="top">La Matinale</span>
+      <span class="bottom">Bingo 🎯</span>
+    </h1>
 
-<button onclick="startBingo()">Let's Go !</button>
+    <div class="live">LIVE</div>
+  </div>
 
-<div id="bingo"></div>
+  <div class="controls">
+    <button class="secondary" onclick="editBingo()">✏️ Modifier les cases</button>
+    <button onclick="newBingo()">🔄 Nouveau bingo</button>
+  </div>
+
+  <div class="main">
+    <div class="counter">
+      Cases cochées
+      <span class="big"><span id="count">0</span>/16</span>
+    </div>
+
+    <div class="grid" id="grid"></div>
+
+    <div class="side-decoration">☕<br>🎙️<br>🔥</div>
+  </div>
+
+  <div class="footer">
+    💜 twitch.tv/<span>luchi_live</span>
+  </div>
+
+</div>
 
 <script>
+const grid = document.getElementById("grid");
+const count = document.getElementById("count");
+let locked = false;
 
-const setup = document.getElementById("setup");
+function createGrid(){
+  grid.innerHTML = "";
 
-for(let i=0;i<16;i++){
-    const input=document.createElement("input");
-    input.placeholder="Case "+(i+1);
-    setup.appendChild(input);
-}
+  for(let i = 0; i < 16; i++){
+    const cell = document.createElement("div");
+    cell.className = "cell";
 
-function startBingo(){
+    const textarea = document.createElement("textarea");
+    textarea.placeholder = "Case " + (i + 1);
 
-    const inputs=document.querySelectorAll("#setup input");
-    const bingo=document.getElementById("bingo");
+    cell.appendChild(textarea);
 
-    bingo.innerHTML="";
-    bingo.style.display="grid";
-
-    inputs.forEach(input=>{
-
-        const div=document.createElement("div");
-        div.className="case";
-        div.innerText=input.value || "???";
-
-        div.onclick=()=>{
-            div.classList.toggle("checked");
-        }
-
-        bingo.appendChild(div);
+    cell.addEventListener("click", function(e){
+      if(!locked) return;
+      cell.classList.toggle("checked");
+      updateCount();
     });
 
-    document.getElementById("setup").style.display="none";
+    grid.appendChild(cell);
+  }
 }
 
-</script>
+function lockBingo(){
+  locked = true;
 
+  document.querySelectorAll(".cell").forEach(cell => {
+    const text = cell.querySelector("textarea").value || "???";
+    cell.innerHTML = text;
+  });
+}
+
+function editBingo(){
+  locked = false;
+
+  document.querySelectorAll(".cell").forEach(cell => {
+    const current = cell.innerText;
+    cell.classList.remove("checked");
+    cell.innerHTML = "";
+
+    const textarea = document.createElement("textarea");
+    textarea.value = current === "???" ? "" : current;
+    cell.appendChild(textarea);
+  });
+
+  updateCount();
+}
+
+function newBingo(){
+  locked = false;
+  createGrid();
+  updateCount();
+}
+
+function updateCount(){
+  count.innerText = document.querySelectorAll(".cell.checked").length;
+}
+
+createGrid();
+
+document.addEventListener("keydown", function(e){
+  if(e.key === "Enter" && !locked){
+    e.preventDefault();
+    lockBingo();
+  }
+});
+</script>
 </body>
 </html>
