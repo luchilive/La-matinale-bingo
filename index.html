@@ -81,6 +81,7 @@ body::before{
 /* CONTROLS */
 .controls{
   display:flex;gap:12px;flex-shrink:0;
+  flex-wrap:wrap;justify-content:center;
   margin:0.5vh 0;
 }
 .btn{
@@ -97,6 +98,10 @@ body::before{
 .btn-edit{
   background:rgba(0,0,0,.5);border:2px solid rgba(255,122,0,.7);
   color:#fff;box-shadow:0 0 14px rgba(255,100,0,.2);
+}
+.btn-validate{
+  background:linear-gradient(160deg,#ffb000,#ff6a00);
+  color:#140700;box-shadow:0 0 22px rgba(255,120,0,.55);
 }
 .btn-new{
   background:linear-gradient(160deg,#ff9500,#c95400);
@@ -118,8 +123,10 @@ body::before{
   background:var(--card-bg);box-shadow:0 0 12px rgba(255,100,0,.35);
   color:#1a0d07;
   display:flex;align-items:center;justify-content:center;
-  text-align:center;padding:8px;
-  font-size:clamp(12px,1.2vw,18px);font-weight:900;
+  text-align:center;padding:6px;
+  font-size:clamp(19px,1.75vw,32px);font-weight:900;
+  line-height:1.05;
+  overflow-wrap:anywhere;word-break:normal;
   cursor:pointer;overflow:hidden;
   transition:background .2s,box-shadow .2s;
 }
@@ -127,10 +134,12 @@ body::before{
   width:100%;height:100%;
   display:flex;align-items:center;justify-content:center;
   text-align:center;
-  font-size:clamp(12px,1.1vw,16px);font-weight:900;
+  font-size:inherit;font-weight:900;
   font-family:'Nunito',sans-serif;
   color:#1a0d07;outline:none;cursor:text;
-  user-select:text;line-height:1.3;word-break:break-word;
+  user-select:text;line-height:1.05;
+  overflow-wrap:anywhere;word-break:normal;
+  white-space:pre-wrap;
 }
 .cell-input:empty::before{
   content:attr(data-placeholder);
@@ -193,6 +202,7 @@ body::before{
 
   <div class="controls">
     <button class="btn btn-edit" onclick="editMode()">✏️ Modifier les cases</button>
+    <button class="btn btn-validate" onclick="lockBingo()">✅ Valider le bingo</button>
     <button class="btn btn-new"  onclick="newBingo()">🔄 Nouveau bingo</button>
   </div>
 
