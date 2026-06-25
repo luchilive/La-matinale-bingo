@@ -3,219 +3,321 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>La Matinale Bingo – Luchi Live</title>
+<title>La Matinale Bingo - Luchi Live</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@800;900&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 
 :root{
-  --orange:#ff7a00;
-  --orange-glow:rgba(255,122,0,.55);
-  --card-bg:linear-gradient(160deg,#fff8ec,#f5e3c0);
-  --card-checked:linear-gradient(160deg,#ffe8a0,#ffc840);
+  --orange:#ff7900;
+  --orange-dark:#7b1b00;
+  --orange-glow:rgba(255,110,0,.72);
+  --cream:#fff8ea;
+  --ink:#17110d;
+  --line:#5b1200;
 }
 
 html,body{
   width:100%;height:100%;overflow:hidden;
   font-family:'Nunito',Arial,sans-serif;
-  color:#fff;
-  background:
-    radial-gradient(ellipse at 10% 5%,rgba(255,130,0,.40) 0%,transparent 38%),
-    radial-gradient(ellipse at 90% 90%,rgba(255,80,0,.30) 0%,transparent 35%),
-    radial-gradient(ellipse at 50% 50%,#1a0b03 0%,#0a0401 100%);
-}
-body::before{
-  content:"";position:fixed;inset:0;pointer-events:none;
-  background-image:radial-gradient(rgba(255,120,0,.18) 1px,transparent 1px);
-  background-size:24px 24px;opacity:.25;
+  color:#fff;background:#f7f7f7;
 }
 
 .app{
-  width:100%;height:100vh;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:space-between;
-  padding:1.5vh 2vw 1vh;
-  gap:0;
+  width:100vw;height:100vh;
+  display:grid;place-items:center;
+  padding:0;
+  background:#fff;
 }
 
-/* HEADER */
-.header{
-  width:100%;
-  display:grid;
-  grid-template-columns:120px 1fr 120px;
-  align-items:center;
-  gap:10px;
-  flex-shrink:0;
+.scene{
+  position:relative;
+  width:min(100vw,calc(100vh * 16 / 9));
+  aspect-ratio:16/9;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 6% 17%,rgba(255,155,30,.72) 0 5%,transparent 13%),
+    radial-gradient(circle at 3% 6%,rgba(255,180,48,.45),transparent 19%),
+    radial-gradient(circle at 88% 16%,rgba(255,80,0,.38),transparent 20%),
+    linear-gradient(100deg,rgba(18,8,2,.18) 0 25%,rgba(0,0,0,.12) 25% 100%),
+    linear-gradient(115deg,#150804 0%,#100402 42%,#050303 100%);
+  box-shadow:0 20px 60px rgba(0,0,0,.24);
 }
-.logo-box,.live-box{
-  border-radius:14px;border:2px solid rgba(255,122,0,.65);
-  background:rgba(0,0,0,.45);box-shadow:0 0 18px rgba(255,100,0,.3);
+.scene::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    repeating-linear-gradient(0deg,transparent 0 20px,rgba(255,98,0,.08) 20px 22px),
+    repeating-linear-gradient(90deg,transparent 0 46px,rgba(255,98,0,.06) 46px 48px);
+  mask:linear-gradient(90deg,transparent 0 56%,#000 72% 100%);
+  opacity:.72;
+}
+.scene::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(circle at 10% 88%,rgba(255,103,0,.9) 0 2px,transparent 2.7px),
+    radial-gradient(circle at 14% 92%,rgba(255,103,0,.78) 0 1.8px,transparent 2.5px);
+  background-size:18px 18px,18px 18px;
+  mask:radial-gradient(ellipse at 6% 96%,#000 0 39%,transparent 62%);
+  opacity:.82;
+}
+
+.wood{
+  position:absolute;left:0;bottom:0;width:33%;height:42%;
+  background:
+    linear-gradient(8deg,rgba(255,90,0,.15),transparent 45%),
+    repeating-linear-gradient(174deg,#321104 0 10px,#170702 10px 19px,#4a1c07 19px 26px);
+  transform:skewY(-8deg);transform-origin:left bottom;
+  opacity:.78;
+}
+
+.cup{
+  position:absolute;left:6.2%;top:16.5%;
+  width:10.6%;aspect-ratio:1.08;
+  border-radius:8% 8% 18% 18%;
+  background:linear-gradient(125deg,#080503 0 62%,#20100a);
+  border:.32vw solid rgba(255,128,24,.45);
+  box-shadow:0 0 2vw rgba(255,92,0,.48),inset -.55vw -.6vw 0 rgba(255,120,0,.15);
   display:flex;align-items:center;justify-content:center;
-  height:clamp(50px,7vh,80px);
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(13px,1.72vw,34px);
+  line-height:.83;text-align:center;letter-spacing:.05em;
+  transform:rotate(-9deg);z-index:3;
 }
-.logo-box{
-  flex-direction:column;
-  font-family:'Bebas Neue',sans-serif;font-size:clamp(16px,2vw,24px);letter-spacing:2px;line-height:1.1;
+.cup::after{
+  content:"";position:absolute;right:-24%;top:34%;width:34%;height:36%;
+  border:.42vw solid rgba(255,235,205,.72);
+  border-left:0;border-radius:0 50% 50% 0;
 }
-.logo-box .accent{color:var(--orange);}
-.live-box{
-  font-family:'Bebas Neue',sans-serif;font-size:clamp(24px,3vw,40px);letter-spacing:5px;
-  color:var(--orange);text-shadow:0 0 20px var(--orange-glow);
-  border:2.5px solid var(--orange);
+.cup .accent{color:var(--orange);}
+.steam,.steam::before,.steam::after{
+  content:"";position:absolute;bottom:96%;left:36%;
+  width:.42vw;height:6.5vw;border-radius:50%;
+  border-left:.28vw solid rgba(255,190,122,.82);
+  filter:drop-shadow(0 0 .35vw rgba(255,105,0,.9));
+  transform:rotate(17deg);
 }
-.title-block{text-align:center;line-height:.85;}
+.steam::before{left:1.4vw;bottom:4%;height:5.4vw;transform:rotate(-20deg);}
+.steam::after{left:2.5vw;bottom:12%;height:4.6vw;transform:rotate(28deg);}
+
+.mic{
+  position:absolute;right:1.5%;top:22%;
+  width:9%;height:28%;z-index:2;opacity:.9;
+}
+.mic::before{
+  content:"";position:absolute;right:0;top:8%;width:42%;height:48%;
+  border-radius:48%;
+  background:linear-gradient(135deg,#1c1613,#050403 70%);
+  border:.45vw solid #2b211d;
+  box-shadow:0 0 1.8vw rgba(255,92,0,.24);
+  transform:rotate(-14deg);
+}
+.mic::after{
+  content:"";position:absolute;right:47%;top:42%;width:64%;height:8%;
+  background:#14100e;border-radius:999px;transform:rotate(-14deg);
+}
+
+.title{
+  position:absolute;top:3.4%;left:29%;right:19%;
+  z-index:4;text-align:center;
+  font-family:'Bebas Neue',sans-serif;
+  text-transform:uppercase;
+  filter:drop-shadow(.22vw .24vw 0 #000);
+}
 .title-top{
-  display:block;font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(32px,5vw,64px);
-  color:#fff;letter-spacing:4px;
-  text-shadow:3px 3px 0 #000,0 0 28px rgba(255,120,0,.5);
-  transform:rotate(-1.5deg);
+  display:block;
+  font-size:clamp(40px,6.3vw,124px);
+  line-height:.82;letter-spacing:.055em;
+  transform:rotate(-3deg);
+  color:#fff;
 }
 .title-bottom{
-  display:block;font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(52px,8vw,100px);
-  color:var(--orange);letter-spacing:5px;line-height:.9;
-  text-shadow:4px 4px 0 #000,0 0 36px rgba(255,100,0,.55);
+  display:block;
+  margin-top:-1.4%;
+  font-size:clamp(54px,9.7vw,188px);
+  line-height:.72;letter-spacing:.025em;
+  color:var(--orange);
+  transform:rotate(-2deg) skewX(-7deg);
+  text-shadow:.28vw .35vw 0 #270700,0 0 2vw rgba(255,94,0,.72);
+}
+.title-bottom::after{
+  content:"";display:block;width:74%;height:.75vw;
+  margin:.2vw auto 0;
+  border-radius:999px;
+  background:linear-gradient(90deg,transparent,var(--orange),transparent);
+  transform:rotate(-2deg);
+}
+.target{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:.74em;height:.74em;margin-left:-.06em;
+  border-radius:50%;
+  background:radial-gradient(circle,#fff 0 14%,#e22 15% 31%,#fff 32% 47%,#e22 48% 63%,#fff 64% 100%);
+  color:#0d0d0d;font-size:.72em;vertical-align:.02em;
+  box-shadow:0 0 .8vw rgba(255,255,255,.32);
+}
+.target::after{content:"";width:.8em;height:.12em;background:var(--orange);transform:rotate(-35deg) translateX(.36em);border-radius:999px;}
+
+.spark{
+  position:absolute;top:11.5%;left:24.3%;width:6%;height:7%;z-index:4;
+  background:
+    linear-gradient(72deg,transparent 42%,var(--orange) 43% 50%,transparent 51%),
+    linear-gradient(105deg,transparent 42%,var(--orange) 43% 50%,transparent 51%),
+    linear-gradient(135deg,transparent 42%,var(--orange) 43% 50%,transparent 51%);
+  opacity:.95;
 }
 
-/* CONTROLS */
-.controls{
-  display:flex;gap:12px;flex-shrink:0;
-  flex-wrap:wrap;justify-content:center;
-  margin:0.5vh 0;
-}
-.btn{
-  cursor:pointer;border:none;border-radius:12px;
-  padding:clamp(8px,1vh,13px) clamp(14px,1.5vw,24px);
-  font-family:'Nunito',sans-serif;
-  font-size:clamp(13px,1.2vw,17px);font-weight:900;
-  letter-spacing:.5px;text-transform:uppercase;
-  display:flex;align-items:center;gap:7px;
-  transition:transform .12s,box-shadow .12s;
-}
-.btn:hover{transform:translateY(-2px);}
-.btn:active{transform:translateY(0);}
-.btn-edit{
-  background:rgba(0,0,0,.5);border:2px solid rgba(255,122,0,.7);
-  color:#fff;box-shadow:0 0 14px rgba(255,100,0,.2);
-}
-.btn-validate{
-  background:linear-gradient(160deg,#ffb000,#ff6a00);
-  color:#140700;box-shadow:0 0 22px rgba(255,120,0,.55);
-}
-.btn-new{
-  background:linear-gradient(160deg,#ff9500,#c95400);
-  color:#fff;box-shadow:0 0 20px rgba(255,100,0,.5);
+.live-box{
+  position:absolute;right:3.6%;top:11.3%;
+  z-index:4;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(28px,4.2vw,82px);
+  letter-spacing:.09em;color:#ff6a00;
+  padding:.25em .34em .12em;
+  border:.34vw solid #ff5c00;border-radius:.12em;
+  text-shadow:0 0 1vw #ff4a00,0 0 2.1vw #ff2700;
+  box-shadow:0 0 1.1vw rgba(255,81,0,.95),inset 0 0 1vw rgba(255,81,0,.65);
 }
 
-/* GRID */
 .grid{
+  position:absolute;z-index:5;
+  left:36.5%;top:31.8%;
+  width:51.7%;height:51.8%;
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:clamp(6px,0.8vw,12px);
-  width:100%;
-  flex:1;
-  max-height:calc(100vh - 22vh - 7vh - 5vh);
+  grid-template-rows:repeat(4,1fr);
+  gap:.72%;
 }
 .cell{
   position:relative;
-  border-radius:12px;border:3px solid var(--orange);
-  background:var(--card-bg);box-shadow:0 0 12px rgba(255,100,0,.35);
-  color:#1a0d07;
+  border-radius:.55vw;
+  border:.26vw solid var(--line);
+  background:linear-gradient(145deg,#fffdf5,#fff2dc 58%,#f8e5c7);
+  color:var(--ink);
   display:flex;align-items:center;justify-content:center;
-  text-align:center;padding:6px;
-  font-size:clamp(19px,1.75vw,32px);font-weight:900;
-  line-height:1.05;
+  text-align:center;padding:.5vw;
+  font-size:clamp(13px,1.24vw,24px);font-weight:900;
+  line-height:1.06;
   overflow-wrap:anywhere;word-break:normal;
   cursor:pointer;overflow:hidden;
-  transition:background .2s,box-shadow .2s;
+  box-shadow:0 0 .55vw rgba(255,118,0,.42),inset 0 0 .35vw rgba(255,255,255,.85);
+  transition:transform .12s,background .2s,box-shadow .2s;
 }
+.cell:hover{transform:translateY(-1px);}
 .cell-input{
   width:100%;height:100%;
   display:flex;align-items:center;justify-content:center;
   text-align:center;
   font-size:inherit;font-weight:900;
   font-family:'Nunito',sans-serif;
-  color:#1a0d07;outline:none;cursor:text;
-  user-select:text;line-height:1.05;
+  color:var(--ink);outline:none;cursor:text;
+  user-select:text;line-height:1.06;
   overflow-wrap:anywhere;word-break:normal;
   white-space:pre-wrap;
 }
 .cell-input:empty::before{
   content:attr(data-placeholder);
-  color:rgba(100,60,20,.35);pointer-events:none;
+  color:#27201a;pointer-events:none;
 }
 .cell.checked{
-  background:var(--card-checked);box-shadow:0 0 20px rgba(255,160,0,.6);
+  background:linear-gradient(145deg,#fff4d7,#ffc94f);
+  box-shadow:0 0 1vw rgba(255,128,0,.85),inset 0 0 .35vw rgba(255,255,255,.8);
 }
 .cell.checked::after{
-  content:"✕";
-  position:absolute;inset:0;
+  content:"";
+  position:absolute;inset:14%;
+  border:.6vw solid var(--orange);
+  border-radius:50%;
+  box-shadow:0 0 .9vw rgba(255,102,0,.7);
+  pointer-events:none;
+}
+.cell.checked::before{
+  content:"";
+  position:absolute;left:33%;top:24%;
+  width:30%;height:48%;
+  border-right:.65vw solid var(--orange);
+  border-bottom:.65vw solid var(--orange);
+  transform:rotate(42deg);
+  filter:drop-shadow(0 0 .35vw rgba(255,95,0,.7));
+  pointer-events:none;
+  z-index:2;
+}
+
+.controls{
+  position:absolute;right:2.2%;bottom:3.1%;z-index:7;
+  display:flex;gap:.78vw;align-items:center;
+}
+.btn{
+  width:clamp(38px,4.6vw,74px);
+  aspect-ratio:1;
+  cursor:pointer;border-radius:.72vw;
+  border:.24vw solid var(--orange-dark);
+  background:rgba(8,4,2,.8);
+  color:var(--orange);
+  box-shadow:0 0 .75vw rgba(255,91,0,.65),inset 0 0 .55vw rgba(255,91,0,.2);
   display:flex;align-items:center;justify-content:center;
-  font-size:clamp(60px,9vw,110px);font-weight:900;
-  color:#ff6a00;
-  text-shadow:2px 2px 0 rgba(180,60,0,.5),0 0 16px rgba(255,100,0,.55);
-  transform:rotate(-8deg);opacity:.92;pointer-events:none;
+  font-size:clamp(20px,2.5vw,42px);
+  line-height:1;
+  transition:transform .12s,box-shadow .12s,background .12s;
 }
+.btn:hover{transform:translateY(-2px);box-shadow:0 0 1.1vw rgba(255,91,0,.88),inset 0 0 .55vw rgba(255,91,0,.25);}
+.btn:active{transform:translateY(0);}
+.btn-validate{
+  border-color:#ff7a00;background:rgba(18,7,1,.86);
+  color:#ff9900;
+}
+.btn span{transform:translateY(-.02em);}
 
-/* FOOTER */
-.footer{
-  flex-shrink:0;
-  display:inline-flex;align-items:center;gap:10px;
-  padding:clamp(7px,1vh,12px) clamp(18px,2vw,32px);
-  border-radius:20px;
-  background:rgba(0,0,0,.55);border:2px solid rgba(255,122,0,.75);
-  box-shadow:0 0 22px rgba(255,100,0,.3);
-  font-size:clamp(16px,2vw,28px);font-weight:900;
-  margin-top:0.5vh;
-}
-.footer .twitch-logo{
-  width:28px;height:28px;background:#9146ff;border-radius:6px;
-  display:flex;align-items:center;justify-content:center;font-size:16px;
-}
-.footer .accent{color:var(--orange);}
-
-/* TOAST */
 .toast{
-  position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);
+  position:absolute;bottom:7%;left:50%;transform:translateX(-50%) translateY(80px);
   background:linear-gradient(135deg,#ff9500,#c95400);
-  color:#fff;font-weight:900;font-size:20px;
-  padding:12px 28px;border-radius:14px;
-  box-shadow:0 0 28px rgba(255,100,0,.7);
-  opacity:0;transition:all .35s;pointer-events:none;z-index:99;
-  letter-spacing:1px;text-transform:uppercase;
+  color:#fff;font-weight:900;font-size:clamp(18px,2vw,34px);
+  padding:.55em 1.35em;border-radius:.65em;
+  box-shadow:0 0 1.7vw rgba(255,100,0,.8);
+  opacity:0;transition:all .35s;pointer-events:none;z-index:20;
+  letter-spacing:.04em;text-transform:uppercase;
 }
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+@media (max-aspect-ratio: 16/9){
+  .scene{width:100vw;height:calc(100vw * 9 / 16);}
+}
+@media (max-width:800px){
+  .app{padding:0;background:#090402;}
+  .scene{width:100vw;height:100vh;aspect-ratio:auto;}
+  .cup{left:4.2%;top:13%;width:13%;}
+  .title{left:20%;right:14%;top:5.5%;}
+  .live-box{right:3.2%;top:13%;font-size:clamp(24px,6vw,44px);}
+  .grid{left:5%;right:5%;top:31%;width:90%;height:54%;}
+  .cell{border-radius:8px;border-width:2px;font-size:clamp(13px,3.2vw,22px);padding:4px;}
+  .controls{right:4%;bottom:3.4%;gap:10px;}
+  .btn{width:46px;border-radius:9px;border-width:2px;font-size:24px;}
+  .mic{display:none;}
+}
 </style>
 </head>
 <body>
 <div class="app">
-
-  <div class="header">
-    <div class="logo-box"><span>Luchi</span><span class="accent">Live</span></div>
-    <div class="title-block">
+  <main class="scene" aria-label="La Matinale Bingo">
+    <div class="wood"></div>
+    <div class="cup"><span class="steam"></span><span>Luchi<br><span class="accent">Live</span></span></div>
+    <div class="spark" aria-hidden="true"></div>
+    <h1 class="title">
       <span class="title-top">La Matinale</span>
-      <span class="title-bottom">Bingo 🎯</span>
-    </div>
+      <span class="title-bottom">Bingo<span class="target" aria-hidden="true"></span></span>
+    </h1>
     <div class="live-box">LIVE</div>
-  </div>
+    <div class="mic" aria-hidden="true"></div>
 
-  <div class="controls">
-    <button class="btn btn-edit" onclick="editMode()">✏️ Modifier les cases</button>
-    <button class="btn btn-validate" onclick="lockBingo()">✅ Valider le bingo</button>
-    <button class="btn btn-new"  onclick="newBingo()">🔄 Nouveau bingo</button>
-  </div>
+    <div class="grid" id="grid"></div>
 
-  <div class="grid" id="grid"></div>
+    <div class="controls" aria-label="Actions du bingo">
+      <button class="btn btn-edit" onclick="editMode()" title="Modifier les cases" aria-label="Modifier les cases"><span>✎</span></button>
+      <button class="btn btn-validate" onclick="lockBingo()" title="Valider le bingo" aria-label="Valider le bingo"><span>✓</span></button>
+      <button class="btn btn-new" onclick="newBingo()" title="Nouveau bingo" aria-label="Nouveau bingo"><span>↻</span></button>
+    </div>
 
-  <div class="footer">
-    <div class="twitch-logo">💜</div>
-    twitch.tv/<span class="accent">luchi_live</span>
-  </div>
-
+    <div class="toast" id="toast"></div>
+  </main>
 </div>
-
-<div class="toast" id="toast"></div>
 
 <script>
 const gridEl  = document.getElementById("grid");
@@ -241,7 +343,7 @@ function render(){
       const div = document.createElement("div");
       div.className = "cell-input";
       div.contentEditable = "true";
-      div.dataset.placeholder = "Case " + (i+1);
+      div.dataset.placeholder = "CASE " + (i+1);
       div.textContent = texts[i];
       div.addEventListener("input", e => { texts[i] = e.target.textContent.trim(); });
       div.addEventListener("click", e => e.stopPropagation());
@@ -267,8 +369,8 @@ function checkBingo(){
   const c=checked;
   const lines=[[0,1,2,3],[4,5,6,7],[8,9,10,11],[12,13,14,15],
     [0,4,8,12],[1,5,9,13],[2,6,10,14],[3,7,11,15],[0,5,10,15],[3,6,9,12]];
-  for(const l of lines){ if(l.every(i=>c[i])){ showToast("🎉 BINGO !"); return; }}
-  if(c.every(Boolean)) showToast("🔥 BINGO COMPLET !");
+  for(const l of lines){ if(l.every(i=>c[i])){ showToast("BINGO !"); return; }}
+  if(c.every(Boolean)) showToast("BINGO COMPLET !");
 }
 function showToast(msg){
   toastEl.textContent=msg; toastEl.classList.add("show");
